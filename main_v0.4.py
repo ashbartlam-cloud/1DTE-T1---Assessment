@@ -3,9 +3,12 @@ import math
 
 # VARIABLES ================================================================================
 
+user_points = 0
+game_history = []
+
 # clarify my the lists for the numbers in the equation
-numerator = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
-denominator = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+numerator = [1, 3, 5, 7, 9, 11]
+denominator = [2, 4, 6, 8, 10]
 operators = ["+", "-", "*", "/"]
 
 # select a random number from the list
@@ -54,6 +57,8 @@ Keys:
 - = Subtraction
 * = Multiplicaton
 / = Division
+
+If you would like to exit the game use '000' to end the game and view your history
     """)
 
 # make a title to print at the start of every game
@@ -78,13 +83,24 @@ while True:
     equation = f"{numerator_random} {operators_random} {denominator_random}"
 
     answer = eval(equation)
-    user_input = float(input(f"What is {equation}?"))
+    user_input = float(input(f"What is {equation}? "))
 
     if user_input == answer:
-        print("Success")
-    else:
-        print(answer)
+        print("☑️Well Done, you got it correct!☑️")
+        user_points += 1
 
+        game_history.append(f"{equation} = ☑️ {answer}")
+
+    elif user_input == 000:
+        break
+
+    elif user_input != answer:
+        print(f"❌Sorry but that was incorrect, the correct answer was {answer}❌")
+        user_points -= 1
+
+        game_history.append(f"{equation} = ❌ {answer}")
+
+print(game_history)
 
 
 

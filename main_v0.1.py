@@ -35,3 +35,11 @@ if ask_instructions == "yes":
     instructions()
 
 # Checks the users input
+if operators_random == "+":
+    result = numerator_random + denominator_random
+elif operators_random == "-":
+    result = numerator_random - denominator_random
+elif operators_random == "*":
+    result = numerator_random * denominator_random
+elif operators_random == "/":
+    result = numerator_random / denominator_random
