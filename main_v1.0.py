@@ -5,35 +5,27 @@ import math
 
 error = "Not a valid input."
 # some empty variables to be filled later in the game
-user_points = 0
 game_history = []
 user_input = 0
 
-valid_yesno_answer = ['n', 'no', 'yes', 'y']
+rounds = 0
+played_rounds = 0
+rounds_lost = 0
+round_wins = 0
 
 # clarify my the lists for the numbers in the equation
 # easy difficulty
-numerator_easy = [1, 3, 5, 7, 9]
-denominator_easy = [2, 4, 6, 8, 10]
-operators_easy = ["+", "-"]
-
-# hard difficulty
-numerator_hard = [1, 3, 5, 7, 9, 11]
-denominator_hard = [2, 4, 6, 8, 10]
-operators_hard = ["+", "-", "*", "/"]
+numerator_easy = [1, 3, 5, 7, 9, 11, 13]
+denominator_easy = [2, 4, 6, 8, 10, 12, 14]
+operators_easy = ["+", "-", "*"]
 
 # select a random number from the list
 numerator_random_easy = random.choice(numerator_easy)
 denominator_random_easy = random.choice(numerator_easy)
 operators_random_easy = random.choice(operators_easy)
 
-numerator_random_hard = random.choice(numerator_hard)
-denominator_random_hard = random.choice(numerator_hard)
-operators_random_hard = random.choice(operators_hard)
-
 # and finally put them together (change the + to a list that is chosen as random)
 equation_easy = f"{numerator_random_easy} {operators_random_easy} {denominator_random_easy}"
-equation_hard = f"{numerator_random_hard} {operators_random_hard} {denominator_random_hard}"
 # INSTRUCTIONS & START SECTION =============================================================
 
 # used in roll it 13, this is for my instructions at the start of the game getting the users input
@@ -48,18 +40,6 @@ def yes_no(question):
             return "no"
         else:
             print("Please Enter Yes Or No!")
-
-def difficulty(question):
-    question = "- Choose Difficulty EASY or HARD - "
-    while True:
-        response = input(question).lower()
-
-        if response == "easy":
-            return "easy"
-        elif response == "hard":
-            return "hard"
-        else:
-            print("Please enter a valid difficulty!")
 
 # define the instructions for the start of the game
 def instructions():
@@ -92,12 +72,17 @@ if ask_instructions == "yes":
     instructions()
 
 # START OF GAME HERE ====================================================================
-user_difficulty = difficulty("- Choose Difficulty EASY or HARD - ").lower()
+amount_of_rounds = int(input("- How many rounds would you like? - "))
+
+if amount_of_rounds > 0:
+    rounds = amount_of_rounds
 
 # difficulty is in here
-if user_difficulty == "easy":
 
-    while True:
+while True:
+    played_rounds += 1
+    print(f"=== ROUND {played_rounds} ===")
+    if played_rounds < rounds:
         numerator_random = random.choice(numerator_easy)
         denominator_random = random.choice(denominator_easy)
         operators_random = random.choice(operators_easy)
@@ -115,7 +100,7 @@ if user_difficulty == "easy":
 
         if user_input == answer:
             print("☑️Well Done, you got it correct!☑️")
-            user_points += 1
+            round_wins += 1
 
             game_history.append(f"{equation} = ☑️ {answer}")
 
@@ -124,54 +109,24 @@ if user_difficulty == "easy":
 
         elif user_input != answer:
             print(f"❌Sorry but that was incorrect, the correct answer was {answer}❌")
-            user_points -= 1
+            rounds_lost += 1
 
             game_history.append(f"{equation} = ❌ {answer}")
-
-elif user_difficulty == "hard":
-
-    while True:
-        numerator_random = random.choice(numerator_hard)
-        denominator_random = random.choice(denominator_hard)
-        operators_random = random.choice(operators_hard)
-
-        equation = f"{numerator_random} {operators_random} {denominator_random}"
-
-        answer = eval(equation)
-        try:
-            user_input = float(input(f"What is {equation}? "))
-
-        except ValueError:
-            print("Invalid Input, please enter a number!")
-            continue
-
-        if user_input == answer:
-            print("☑️Well Done, you got it correct!☑️")
-            user_points += 1
-
-            game_history.append(f"{equation} = ☑️ {answer}")
-
-        elif user_input == 000:
-            break
-
-        elif user_input != answer:
-            print(f"❌Sorry but that was incorrect, the correct answer was {answer}❌")
-            user_points -= 1
-
-            game_history.append(f"{equation} = ❌ {answer}")
+    elif played_rounds >= rounds:
+        break
 
 # here is the history / end game section
 print()
 
 view_history = input("- Would you like to view your game history? - ").lower()
 
-if view_history in valid_yesno_answer:
+if view_history == "yes" or "y":
     print()
     print("=== Here is your game history: === \n", '\n '.join(game_history))
-# sorting out the users points
-if user_points > 0:
-    print(f"- Congrats you have {user_points} point(s) this game!")
-elif user_points < 0:
-    print(f"- Eh, you can try better next time, you only got {user_points} point(s) :/")
-else:
-    print("- Right back at square one huh :>")
+
+rounds_won = round_wins - rounds_lost
+percent_won = rounds_won / round_wins * 100
+percent_lost = rounds_lost / round_wins * 100
+print("=== Game Statistics ===")
+print(f" Won: {percent_won:.2f}% \t"
+      f" Lost: {percent_lost:.2f}% \t")
