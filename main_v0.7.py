@@ -7,6 +7,9 @@ error = "Not a valid input."
 # some empty variables to be filled later in the game
 user_points = 0
 game_history = []
+user_input = 0
+
+valid_yesno_answer = ['n', 'no', 'yes', 'y']
 
 # clarify my the lists for the numbers in the equation
 # easy difficulty
@@ -102,7 +105,13 @@ if user_difficulty == "easy":
         equation = f"{numerator_random} {operators_random} {denominator_random}"
 
         answer = eval(equation)
-        user_input = float(input(f"What is {equation}? "))
+        try:
+            user_input = float(input(f"What is {equation}? "))
+
+        except ValueError:
+                print("Invalid Input, please enter a number!")
+                continue
+
 
         if user_input == answer:
             print("☑️Well Done, you got it correct!☑️")
@@ -119,7 +128,6 @@ if user_difficulty == "easy":
 
             game_history.append(f"{equation} = ❌ {answer}")
 
-    print(game_history)
 elif user_difficulty == "hard":
 
     while True:
@@ -130,7 +138,12 @@ elif user_difficulty == "hard":
         equation = f"{numerator_random} {operators_random} {denominator_random}"
 
         answer = eval(equation)
-        user_input = float(input(f"What is {equation}? "))
+        try:
+            user_input = float(input(f"What is {equation}? "))
+
+        except ValueError:
+            print("Invalid Input, please enter a number!")
+            continue
 
         if user_input == answer:
             print("☑️Well Done, you got it correct!☑️")
@@ -147,8 +160,18 @@ elif user_difficulty == "hard":
 
             game_history.append(f"{equation} = ❌ {answer}")
 
-# here is the history
+# here is the history / end game section
+print()
+
 view_history = input("- Would you like to view your game history? - ").lower()
 
-if view_history == 'yes':
-    print("Success")
+if view_history in valid_yesno_answer:
+    print()
+    print("=== Here is your game history: === \n", '\n '.join(game_history))
+# sorting out the users points
+if user_points > 0:
+    print(f"- Congrats you have {user_points} point(s) this game!")
+elif user_points < 0:
+    print(f"- Eh, you can try better next time, you only got {user_points} point(s) :/")
+else:
+    print("- Right back at square one huh :>")

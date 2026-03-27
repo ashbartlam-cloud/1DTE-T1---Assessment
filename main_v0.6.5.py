@@ -7,6 +7,7 @@ error = "Not a valid input."
 # some empty variables to be filled later in the game
 user_points = 0
 game_history = []
+user_input = 0
 
 # clarify my the lists for the numbers in the equation
 # easy difficulty
@@ -102,7 +103,13 @@ if user_difficulty == "easy":
         equation = f"{numerator_random} {operators_random} {denominator_random}"
 
         answer = eval(equation)
-        user_input = float(input(f"What is {equation}? "))
+        try:
+            user_input = float(input(f"What is {equation}? "))
+            if user_input == str:
+                break
+        except ValueError:
+                print("Invalid Input, please enter a number!")
+
 
         if user_input == answer:
             print("☑️Well Done, you got it correct!☑️")
@@ -148,6 +155,8 @@ elif user_difficulty == "hard":
             game_history.append(f"{equation} = ❌ {answer}")
 
 # here is the history
+print()
+print(f"Congrats: Your total points this game were {user_points}")
 view_history = input("- Would you like to view your game history? - ").lower()
 
 if view_history == 'yes':

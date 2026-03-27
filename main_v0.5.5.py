@@ -119,7 +119,7 @@ if user_difficulty == "easy":
 
             game_history.append(f"{equation} = ❌ {answer}")
 
-    print(game_history)
+
 
 elif user_difficulty == "hard":
 
