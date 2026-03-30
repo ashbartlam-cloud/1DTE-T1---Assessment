@@ -72,10 +72,17 @@ if ask_instructions == "yes":
     instructions()
 
 # START OF GAME HERE ====================================================================
-amount_of_rounds = int(input("- How many rounds would you like? - "))
+while True:
+    try:
+        amount_of_rounds = int(input("- How many rounds would you like? - "))
 
-if amount_of_rounds > 0:
-    rounds = amount_of_rounds
+        if amount_of_rounds > 1:
+            rounds = amount_of_rounds
+            break
+        elif amount_of_rounds == 1:
+            print("Please enter a integer over 1!")
+    except ValueError:
+        print("Please enter a valid integer!")
 
 # difficulty is in here
 
@@ -123,10 +130,13 @@ view_history = input("- Would you like to view your game history? - ").lower()
 if view_history == "yes" or "y":
     print()
     print("=== Here is your game history: === \n", '\n '.join(game_history))
-
-rounds_won = round_wins - rounds_lost
-percent_won = rounds_won / round_wins * 100
-percent_lost = rounds_lost / round_wins * 100
-print("=== Game Statistics ===")
-print(f" Won: {percent_won:.2f}% \t"
-      f" Lost: {percent_lost:.2f}% \t")
+    try:
+        rounds_won = round_wins - rounds_lost
+        percent_won = rounds_won / round_wins * 100
+        percent_lost = rounds_lost / round_wins * 100
+        print("=== Game Statistics ===")
+        print(f" Won: {percent_won:.2f}% \t"
+              f" Lost: {percent_lost:.2f}% \t")
+        print(f"You won {round_wins} rounds out of {played_rounds} rounds.")
+    except ZeroDivisionError:
+        print("You lost every round :/")
