@@ -77,9 +77,12 @@ while True:
         amount_of_rounds = int(input("- How many rounds would you like? - "))
 
         if amount_of_rounds > 1:
-            rounds = amount_of_rounds
-            break
-        elif amount_of_rounds == 1:
+            if amount_of_rounds > 100:
+                print("This is too many rounds, please enter an integer that is equal or less than 100")
+            elif amount_of_rounds > 1:
+                rounds = amount_of_rounds
+                break
+        elif amount_of_rounds <= 1:
             print("Please enter a integer over 1!")
     except ValueError:
         print("Please enter a valid integer!")
